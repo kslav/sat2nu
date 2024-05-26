@@ -1,0 +1,18 @@
+{
+	"random_seed": 723,
+	"shuffle": true,
+	"name": "debug",
+	"styletransfer": "sat2nu",
+	"network": "UNet",
+	"batch_size": 5,
+	"step": 0.0001,
+	"num_epochs": 10,
+	"img_dirs_val": "/cbica/home/slavkovk/project_DeepContrast/Data/basser_val_dirs.csv",
+	"img_dirs_train": "/cbica/home/slavkovk/project_DeepContrast/Data/basser_train_dirs.csv",
+	"clip_grads": 1,
+	"gpu": "0",
+	"logdir": "/cbica/home/slavkovk/project_DeepContrast/logs",
+	"target_size": 256,
+	"num_workers": 2,
+	"accelerator": "cpu"
+}
