@@ -1,4 +1,4 @@
-# deep-contrast
+# Sat2Nu
 
 PURPOSE: To develop a supervised learning framework, Sat2Nu, using a shallow U-Net architecture that synthesizes nonfat-supporessed breast MRIs from fat-suppressed inputs.
 
