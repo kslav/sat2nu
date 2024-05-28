@@ -1,18 +1,18 @@
 {
 	"random_seed": 723,
-	"shuffle": true,
-	"name": "debug",
-	"styletransfer": "sat2nu",
-	"network": "UNet",
-	"batch_size": 5,
-	"step": 0.0001,
-	"num_epochs": 10,
-	"img_dirs_val": "/cbica/home/slavkovk/project_DeepContrast/Data/basser_val_dirs.csv",
-	"img_dirs_train": "/cbica/home/slavkovk/project_DeepContrast/Data/basser_train_dirs.csv",
-	"clip_grads": 1,
-	"gpu": "0",
-	"logdir": "/cbica/home/slavkovk/project_DeepContrast/logs",
-	"target_size": 256,
-	"num_workers": 2,
-	"accelerator": "cpu"
+	"shuffle": true, //DataLoader parameter, whether to shuffle the data before batching
+	"name": "debug", //Name of your experiment
+	"styletransfer": "sat2nu", //Which style transfer pipeline (only sat2nu exists presently)
+	"network": "UNet", //Which model to use. Currently only UNet implemented
+	"batch_size": 5, //batch size for training
+	"step": 0.0001,  // learning rate
+	"num_epochs": 10, //number of epochs
+	"img_dirs_val": "/path/to/validation/data.csv", //Image paths are stored in a .csv file with columns titled GT and Input
+	"img_dirs_train": "/path/to/training/data.csv", //Same as above
+	"clip_grads": 1, // value at which to clip the gradient values
+	"gpu": "0", //GPU ID
+	"logdir": "/path/to/log/dir", //Where to store log files 
+	"target_size": 256, //target size for re-shaping imaging data
+	"num_workers": 2, //number of cpu cores
+	"accelerator": "gpu" //cpu or gpu
 }

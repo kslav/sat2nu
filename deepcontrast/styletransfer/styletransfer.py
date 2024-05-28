@@ -454,29 +454,4 @@ class StyleTransfer(pl.LightningModule):
         
 
 
-## OLD STUFF ##
-
-#compute the total gradient here:
-
-        #_grad_norm_total = 0
-        #if _epoch > 0:
-        #    _grad_norms_all = pl.utilities.grad_norm(self.network,2)
-        #    _grad_norm_total = _grad_norms_all['grad_2.0_norm_total'] # apparently no such key....
-        #print(_grad_norms_all.keys())
-        #_total_norm = 0
-
-        #for p in self.network.parameters():
-        #    if p.grad is not None:
-        #        param_norm = p.grad.data.norm(2)
-        #        _total_norm += param_norm.item() ** 2
-        #_total_norm = _total_norm ** 0.5
-        #_grad_norm_total = _total_norm
-        #parameters = [p for p in self.network.parameters() if p.grad is not None and p.requires_grad]
-        #if len(parameters) == 0:
-        #    total_norm = 0.0
-        #else:
-        #    device = parameters[0].grad.device
-        #    total_norm = torch.norm(torch.stack([torch.norm(p.grad.detach(), 2).to(device) for p in parameters]), 2.0).item()
-        #grad_norms_all = grad_norm(self.network,2)
-        #_grad_norm_total = grad_norms_all["grad_2_norm_total"]
 

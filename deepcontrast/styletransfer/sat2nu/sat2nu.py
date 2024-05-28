@@ -28,4 +28,3 @@ class Sat2Nu(StyleTransfer):
     def get_metadata(self):
         return {}
 
-    # for style transfer, I think we will have to write a custom training_step() function here that overrides the one from the parent class

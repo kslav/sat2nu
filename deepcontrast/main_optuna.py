@@ -56,10 +56,8 @@ def main_train(args, gpu_ids=None):
         args.tt_logger_version = tt_logger.version
         checkpoint_path = '{}/checkpoints'.format(save_path)
         pathlib.Path(checkpoint_path).mkdir(parents=True, exist_ok=True)
-        if args.save_all_checkpoints:
-            save_top_k = -1
-        else:
-            save_top_k = 1
+  
+        save_top_k = 1
         checkpoint_callback = ModelCheckpoint(checkpoint_path, 'epoch', save_top_k=save_top_k, mode='max', verbose=False)
 
         # instantiate our model and training scheme!
@@ -84,13 +82,10 @@ def main_train(args, gpu_ids=None):
         
         if gpu_ids is None:
             gpus = None
-            distributed_backend = None # FIXME should this also be ddp?
         elif args.hyperopt:
             gpus = 1
-            distributed_backend = None
         else:
             gpus = gpu_ids
-            distributed_backend = 'ddp'
 
         # define the trainer depending on whether we want to use CPU or GPU
         if args.accelerator =="gpu":
@@ -149,7 +144,6 @@ def main_train(args, gpu_ids=None):
         M = MyST(args,trial=None)
 
         if args.checkpoint_init:
-            # FIXME: workaround for PyTL issues with loading hparams
             print('loading checkpoint: {}'.format(args.checkpoint_init))
             checkpoint = torch.load(args.checkpoint_init, map_location=lambda storage, loc: storage)
             M.load_state_dict(checkpoint['state_dict'])
@@ -159,13 +153,10 @@ def main_train(args, gpu_ids=None):
         
         if gpu_ids is None:
             gpus = None
-            distributed_backend = None # FIXME should this also be ddp?
         elif args.hyperopt:
             gpus = 1
-            distributed_backend = None
         else:
             gpus = gpu_ids
-            distributed_backend = 'ddp'
 
         if args.accelerator =="gpu":
             print("Defining trainer with GPU accelerators")
@@ -175,7 +166,7 @@ def main_train(args, gpu_ids=None):
             trainer = Trainer(max_epochs=args.num_epochs, accelerator=args.accelerator, devices=args.num_workers, logger=tt_logger, callbacks=checkpoint_callback, accumulate_grad_batches=args.num_accumulate, gradient_clip_val=args.clip_grads, log_every_n_steps=args.save_every_N_steps)
 
         trainer.fit(M) # training and validation steps!
-        trainer.test(M) # test on in-distribution data if you choose
+        #trainer.test(M) # test if you choose
 
 
 if __name__ == '__main__':
@@ -223,7 +214,6 @@ if __name__ == '__main__':
     parser.add_argument('--hyperopt_optuna', action='store_true', dest='hyperopt_optuna', help='perform hyperparam optimization with optuna', default=False)
     parser.add_argument('--checkpoint_init', action='store', dest='checkpoint_init', type=str, help='load from checkpoint', default=None)
     parser.add_argument('--logdir', action='store', dest='logdir', type=str, help='log dir', default='logs')
-    parser.add_argument('--save_all_checkpoints', action='store_true', dest='save_all_checkpoints', help='Save all checkpoints', default=False)
     parser.add_argument('--lr_scheduler', action='store', dest='lr_scheduler', nargs='+', type=int, help='do [#epoch, learning rate multiplicative factor] to use a learning rate scheduler', default=-1)
     parser.add_argument('--save_every_N_steps', action='store', type=int,  dest='save_every_N_steps', help='save images every N epochs', default=1)
     parser.add_argument('--do_warmstart', action='store_true', dest='do_warmstart', help='load preliminary weights rather than random ones', default=False)

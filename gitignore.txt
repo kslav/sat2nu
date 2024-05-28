@@ -2,6 +2,7 @@
 deepcontrast_venv/
 logs/
 Data/
+Results/
 *.docx
 Scripts
 

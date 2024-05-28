@@ -21,7 +21,6 @@ class CustomMRIDataset(Dataset):
 # FILE TYPES: Images are all loaded as dicoms from the directories in the CSV 
 # file and are loaded as such before being converted to torch Tensors
 
-# TRANSFORMS: NULL for now, consider rotaitons and translations
 
     # A custom Dataset class must have the following three functions
     def __init__(self, img_dirs_csv, target_size, limit_range = False, transform=None):
@@ -38,8 +37,7 @@ class CustomMRIDataset(Dataset):
         img_path_gt = self.img_dirs.loc[idx,'GT_Nfs']   #ground truth dicom path (non-fat-sat)
         img_path_inp = self.img_dirs.loc[idx,'Inp_Pre'] #input into the model dicom path (pre-contrast fat-sat)
         
-        ### This isn't quite working out; gt and inp don't correspond ###
-        ### Model still converges, though, so that says something! ###
+        ### Load the images from the file paths ###
 
         img_gt = sitk.GetArrayFromImage(sitk.ReadImage(img_path_gt))    #actual ground truth image loaded with SITK
         img_gt = img_gt.transpose() #CHECK THIS
