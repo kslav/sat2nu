@@ -14,4 +14,4 @@ To use this pipeline for your own research, please follow these steps:
 4. Create a configs file using the template at `deepinpy/configs/testing_code_example.json` with your desired parameters
 5. If not using Optuna for hyperparameter optimization, simply run `python main.py --config path/to/config`. Else, if using optuna, set the `hyperopt_optuna` flag to true in your config file and configure the parameter ranges at the beginning of `objective(trial)` (lines 34-47) in `main_optuna.py`; then run `python main_optuna.py --config path/to-config`
 
-This work will be available in the proceedings of the International Workshop on Breast Imaging (https://www.iwbi2024.org/). 
+Some preliminary results from this work will be available in the proceedings of the International Workshop on Breast Imaging (https://www.iwbi2024.org/). 
