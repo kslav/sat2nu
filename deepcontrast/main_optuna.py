@@ -16,8 +16,6 @@ import argparse
 import time
 
 from styletransfer import Sat2Nu
-from styletransfer import Sat2Convu
-
 import torch
 import optuna 
 
@@ -173,6 +171,8 @@ if __name__ == '__main__':
     usage_str = 'usage: %(prog)s [options]'
     description_str = 'style transfer for MRI'
 
+    ## Note: not really using hyperopt grid search, instead using optuna, so can replace opt_list and opt_range with add_argument
+
     parser = HyperOptArgumentParser(usage=usage_str, description=description_str, formatter_class=argparse.ArgumentDefaultsHelpFormatter, strategy='grid_search')
 
     parser.opt_list('--step', action='store', dest='step', type=float, tunable=False, options=[0.001,0.0001], help='number of latent channels', default=0.0001)
@@ -247,4 +247,5 @@ if __name__ == '__main__':
         gpu_ids = [int(a) for a in args.gpu.split(',')] # GPU IDs inputted as list
     else:
         gpu_ids = None
+
     main_train(args, gpu_ids=gpu_ids)

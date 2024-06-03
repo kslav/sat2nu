@@ -66,12 +66,12 @@ class UNet(torch.nn.Module):
       if self.shallow_net==True:
         # here we'll test a shallower version of the network above
         #### Encoder
-        #x input is size 256 x 256 x 1 
-        x1 = self.leakyrelu(self.conv1(x)) #128x128x64
+        #x input is size X x Y x 1 
+        x1 = self.leakyrelu(self.conv1(x)) #(X/2)x(Y/2)x64
         # instantiate the other layers without drop out, then check for drop out
-        x2 = self.leakyrelu(self.conv2(x1)) #64x64x128
-        x3 = self.leakyrelu(self.conv3(x2)) #32x32x256
-        x4 = self.conv4(x3) #16x16x512
+        x2 = self.leakyrelu(self.conv2(x1)) #(X/4)x(Y/4)x128
+        x3 = self.leakyrelu(self.conv3(x2)) #(X/8)x(Y/8)x256
+        x4 = self.conv4(x3) #(X/16)x(Y/16)x512
 
         # If dropout is non-zero, apply dropout right after activation of each layer
         if self.dropout !=0:
@@ -84,10 +84,6 @@ class UNet(torch.nn.Module):
         # Remember, input channels at each layer double because of skip connections!
         # Not applying any drop out to decoding layers at this point
                       #input 16x16x512
-        y4 = []
-        y5 = []
-        y6 = []
-        y7 = []
         if self.use_deconv: # did not find difference in performance whether using deconvs or upsample+conv, so didn't implement for deeper u-net
           y4 = self.deconv3b(self.relu(x4)) #32x32x256
                                                             #input 32x32x512
@@ -155,7 +151,7 @@ class UNet(torch.nn.Module):
         out = y7 + x # with addition of input to output
         #out = y7 # test case without input addition and see what happens...
          
-      print("------> out.shape = ", out.shape)
+      #print("------> out.shape = ", out.shape) # print to check output shape 
       return out # return the output of the U-Net
 
 
