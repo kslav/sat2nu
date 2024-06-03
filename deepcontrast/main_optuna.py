@@ -32,6 +32,7 @@ def main_train(args, gpu_ids=None):
     
     def objective(trial):
         # objective only called when we're using optuna
+        
         # define the scalars we want to tune: 
         args.step = trial.suggest_float("learning_rate", 0.0001, 0.005)
         args.adam_eps=trial.suggest_float("eps_val",1e-8,1e-6)
@@ -60,7 +61,7 @@ def main_train(args, gpu_ids=None):
         save_top_k = 1
         checkpoint_callback = ModelCheckpoint(checkpoint_path, 'epoch', save_top_k=save_top_k, mode='max', verbose=False)
 
-        # instantiate our model and training scheme!
+        # create our model and training scheme!
         if args.styletransfer == 'sat2nu':
             MyST = Sat2Nu
         elif args.styletransfer == 'sat2convu':
@@ -72,7 +73,6 @@ def main_train(args, gpu_ids=None):
 
 
         if args.checkpoint_init:
-            # FIXME: workaround for PyTL issues with loading hparams
             print('loading checkpoint: {}'.format(args.checkpoint_init))
             checkpoint = torch.load(args.checkpoint_init, map_location=lambda storage, loc: storage)
             M.load_state_dict(checkpoint['state_dict'])
